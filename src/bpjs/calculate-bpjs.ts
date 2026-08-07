@@ -1,18 +1,22 @@
-import type { BpjsConfig, JkkTier } from '../constants/types.js';
+import type { BpjsConfig, IsoDateString, JkkTierLabel } from '../constants/types.js';
+import { assertIsoDateString } from '../utils/validate-date.js';
 
-export type JkkTierLabel = JkkTier['label'];
+export type { JkkTierLabel } from '../constants/types.js';
 
 export interface BpjsInput {
   /** Monthly base wage used for BPJS contribution calculations (upah sebulan). */
   monthlyWage: number;
   jkkTier: JkkTierLabel;
-  /** Payroll period date (ISO), used to resolve the JP wage ceiling in effect. */
-  periodDate: string;
+  /** Payroll period date, used to resolve the JP wage ceiling in effect. */
+  periodDate: IsoDateString;
   /** Family size for BPJS Kesehatan is irrelevant to the premium — flat rate on wage up to ceiling. */
 }
 
+/** Component name for a single BPJS premium line. */
+export type BpjsComponentLabel = 'JKK' | 'JKM' | 'JHT' | 'JP' | 'Kesehatan';
+
 export interface BpjsComponent {
-  label: string;
+  label: BpjsComponentLabel;
   employerAmount: number;
   employeeAmount: number;
   /** Whether this component's employer-paid portion is added to the employee's taxable gross. */
@@ -31,7 +35,7 @@ export interface BpjsResult {
   deductibleAmount: number;
 }
 
-function resolveWageCeiling(ceilings: BpjsConfig['jp']['wageCeilings'], periodDate: string): number {
+function resolveWageCeiling(ceilings: BpjsConfig['jp']['wageCeilings'], periodDate: IsoDateString): number {
   const applicable = ceilings
     .filter((c) => c.effectiveFrom <= periodDate)
     .sort((a, b) => (a.effectiveFrom < b.effectiveFrom ? 1 : -1));
@@ -53,6 +57,8 @@ function resolveWageCeiling(ceilings: BpjsConfig['jp']['wageCeilings'], periodDa
  * Kesehatan's is not.
  */
 export function calculateBpjs(input: BpjsInput, config: BpjsConfig): BpjsResult {
+  assertIsoDateString(input.periodDate, 'periodDate');
+
   const jkkTier = config.jkk.tiers.find((t) => t.label === input.jkkTier);
   if (!jkkTier) {
     const available = config.jkk.tiers.map((t) => t.label).join(', ');

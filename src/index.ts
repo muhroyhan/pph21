@@ -108,7 +108,13 @@ export { resolvePtkp } from './core/resolve-ptkp.js';
 export { lookupTerRate, getTerBracketsForCategory } from './core/ter-lookup.js';
 export { applyProgressiveBrackets } from './core/progressive.js';
 export { calculateBpjs } from './bpjs/calculate-bpjs.js';
-export type { BpjsInput, BpjsResult, BpjsComponent, JkkTierLabel } from './bpjs/calculate-bpjs.js';
+export type {
+  BpjsInput,
+  BpjsResult,
+  BpjsComponent,
+  BpjsComponentLabel,
+  JkkTierLabel,
+} from './bpjs/calculate-bpjs.js';
 
 export type {
   PtkpStatus,
@@ -118,6 +124,9 @@ export type {
   TaxYearConfig,
   BpjsConfig,
   DtpConfig,
+  DtpKbliSector,
+  IsoDateString,
+  IsoMonthString,
 } from './constants/types.js';
 export type { PPh21Result, BreakdownLine, CalculationMethod } from './core/result-types.js';
 

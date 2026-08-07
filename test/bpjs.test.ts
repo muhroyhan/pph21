@@ -68,4 +68,22 @@ describe('BPJS calculation', () => {
       ),
     ).toThrow(/Unknown JKK tier/);
   });
+
+  it('throws on a periodDate that is not a real calendar date', () => {
+    expect(() =>
+      calculateBpjs(
+        { monthlyWage: 8_000_000, jkkTier: 'low', periodDate: '2026-02-30' as never },
+        BPJS_2024,
+      ),
+    ).toThrow(/Invalid periodDate/);
+  });
+
+  it('throws on a periodDate that is not in YYYY-MM-DD format', () => {
+    expect(() =>
+      calculateBpjs(
+        { monthlyWage: 8_000_000, jkkTier: 'low', periodDate: '06/01/2024' as never },
+        BPJS_2024,
+      ),
+    ).toThrow(/Invalid periodDate/);
+  });
 });

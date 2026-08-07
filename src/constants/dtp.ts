@@ -1,4 +1,5 @@
 import type { DtpConfig } from './types.js';
+import { assertIsoMonthString } from '../utils/validate-date.js';
 
 /**
  * PMK 105/2025 — PPh 21 Ditanggung Pemerintah (DTP) 2026 stimulus for five
@@ -15,3 +16,5 @@ export const DTP_2026: DtpConfig = {
   maxDailyWage: 500_000,
   baselineMonth: '2026-01',
 };
+
+assertIsoMonthString(DTP_2026.baselineMonth, 'DTP_2026.baselineMonth');

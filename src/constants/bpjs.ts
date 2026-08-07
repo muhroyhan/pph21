@@ -1,4 +1,5 @@
 import type { BpjsConfig } from './types.js';
+import { assertIsoDateString } from '../utils/validate-date.js';
 
 /**
  * BPJS Ketenagakerjaan (PP 44/2015, PP 82/2019) + BPJS Kesehatan (Perpres 63/2022).
@@ -34,3 +35,5 @@ export const BPJS_2024: BpjsConfig = {
     wageCeiling: 12_000_000,
   },
 };
+
+BPJS_2024.jp.wageCeilings.forEach((c) => assertIsoDateString(c.effectiveFrom, 'BPJS_2024 wageCeilings.effectiveFrom'));

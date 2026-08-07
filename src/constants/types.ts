@@ -18,6 +18,12 @@ export type PtkpStatus =
   | 'K0' | 'K1' | 'K2' | 'K3'
   | 'KI0' | 'KI1' | 'KI2' | 'KI3';
 
+/** Calendar date in `YYYY-MM-DD` format (e.g. `'2026-03-01'`). */
+export type IsoDateString = `${number}-${number}-${number}`;
+
+/** Calendar month in `YYYY-MM` format (e.g. `'2026-01'`). */
+export type IsoMonthString = `${number}-${number}`;
+
 export interface PtkpConfig {
   base: number;
   kawin: number;
@@ -37,12 +43,15 @@ export interface DeductionsConfig {
 }
 
 export interface JpWageCeilingEntry {
-  effectiveFrom: string; // ISO date, e.g. '2026-03-01'
+  effectiveFrom: IsoDateString;
   amount: number;
 }
 
+/** BPJS Ketenagakerjaan JKK (workplace accident) risk-grade tier, PP 44/2015. */
+export type JkkTierLabel = 'very-low' | 'low' | 'medium' | 'high' | 'very-high';
+
 export interface JkkTier {
-  label: string;
+  label: JkkTierLabel;
   rate: number;
 }
 
@@ -54,12 +63,15 @@ export interface BpjsConfig {
   kesehatan: { employerRate: number; employeeRate: number; wageCeiling: number };
 }
 
+/** PMK 105/2025 labor-intensive sector eligible for the 2026 PPh 21 DTP stimulus. */
+export type DtpKbliSector = 'footwear' | 'textile' | 'furniture' | 'leather-goods' | 'tourism';
+
 export interface DtpConfig {
   regulation: string;
-  eligibleKbliSectors: string[];
+  eligibleKbliSectors: DtpKbliSector[];
   maxMonthlyGross: number;
   maxDailyWage: number;
-  baselineMonth: string; // e.g. '2026-01'
+  baselineMonth: IsoMonthString;
 }
 
 export interface RegulationRefs {
