@@ -1,7 +1,7 @@
 # pph21
 
 Indonesian employee income tax (**PPh Pasal 21**) calculator for Node.js and
-the browser. Zero runtime dependencies. PTKP, TER (PMK 168/2023), Article 17,
+the browser. PTKP, TER (PMK 168/2023), Article 17,
 BPJS, and the 2026 PPh 21 DTP incentive (PMK 105/2025) all ship as **internal,
 versioned constants** — you never supply tax figures, only the facts of the
 payroll event.
@@ -118,6 +118,25 @@ the update.
 - Multi-employer year-end consolidation
 - Cumulative monthly-wage tracking for daily-paid non-permanent workers (each
   daily payment is calculated independently, per the official formula)
+
+## Releasing
+
+Every push to `main` is versioned and published automatically by
+[semantic-release](https://semantic-release.gitbook.io/) — no manual version
+bump or `npm publish` step. The version bump is derived from
+[Conventional Commits](https://www.conventionalcommits.org/) on `main`:
+
+| Commit prefix | Release |
+|---|---|
+| `fix: ...` | patch (1.0.0 → 1.0.1) |
+| `feat: ...` | minor (1.0.0 → 1.1.0) |
+| `feat: ...` + `BREAKING CHANGE:` footer, or `feat!: ...` | major (1.0.0 → 2.0.0) |
+| `chore:`, `docs:`, `test:`, `refactor:`, ... | no release |
+
+A commit that doesn't follow this format is treated as a non-release change
+(no version bump, no publish). `CHANGELOG.md`, the `package.json` version, and
+the git tag are all updated by the release commit itself — don't bump the
+version by hand.
 
 ## License
 
