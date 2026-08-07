@@ -36,3 +36,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # develop is the default/working branch; main only exists to trigger
+      # releases. semantic-release's version-bump commit lands on main, so
+      # without this, develop's package.json/CHANGELOG.md permanently lag
+      # behind whatever last got published. No-op (prints "Already up to
+      # date") when semantic-release didn't release anything this run.
+      - name: Sync main back into develop
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin develop
+          git checkout -B develop origin/develop
+          git merge --no-edit origin/main
+          git push origin develop
