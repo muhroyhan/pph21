@@ -1,6 +1,6 @@
 {
   "name": "pph21",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "Indonesian employee income tax (PPh Pasal 21) calculator — PTKP, TER (PMK 168/2023), Article 17, BPJS, and PMK 105/2025 DTP, all as internal, upgradable constants.",
   "keywords": [
     "pph21",
